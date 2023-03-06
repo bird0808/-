@@ -1,0 +1,3 @@
+1.RecyclerView的任务仅限于回收和定位屏幕上的View。列表项View能够显示数据还离不开
+另外两个类的支持：ViewHolder子类和Adapter子类。ViewHolder要做的事很少，首先介绍它。
+顾名思义，ViewHolder只做一件事：容纳View视图
