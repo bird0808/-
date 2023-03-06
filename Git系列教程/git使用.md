@@ -171,7 +171,7 @@ github 网址：[https://github.com](https://github.com)
 
 - `git push <远程主机名> <本地分支名>:<远程分支名>`
 
-    用于把本地项目上传到远程仓库，**注意：本地项目要先用git init命令初始化后，commit后，才能使用push命令上传。**
+    用于把本地项目上传到远程仓库，**注意：本地项目要先用git init命令初始化后，add、commit后，才能使用push命令上传。**
 
     如果本地分支名与远程分支名相同，可以忽略`:<远程分支名>`。
 
@@ -190,3 +190,15 @@ github 网址：[https://github.com](https://github.com)
 - `git pull <远程主机名> <远程分支名>:<本地分支名>`
 
     把远程主机名对应的分支合并到本地分支，如果忽略`:<本地分支名>`，默认将远程分支合并到现在控制台所显示的分支。
+
+## 3.3远程仓库其他操作
+
+- `git push origin --delete <branchName>`
+
+    删除远程仓库的某个分支
+
+- `git push origin --delete tag <tagname>`
+
+    删除远程tag
+
+- 
