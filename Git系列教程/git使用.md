@@ -40,9 +40,6 @@ git:分布式版本控制工具，它具有以下几个概念
 
     从工作区添加文件到暂存区。使用git add . 添加所有文件到暂存区。
 
-- `git rm --cached [file]`
-
-    从暂存区删除一个文件，工作区仍然保留这个文件
 
 ## 1.4提交到本地库
 
@@ -79,22 +76,36 @@ git:分布式版本控制工具，它具有以下几个概念
 **HEAD 说明：**
 
 - HEAD 表示当前版本
-- HEAD^ 上一个版本
-- HEAD^^ 上上一个版本
-- HEAD^^^ 上上上一个版本
+- `HEAD^` 上一个版本
+- `HEAD^^` 上上一个版本
+- `HEAD^^^ `上上上一个版本
 
 可以使用 ～数字表示
 
 - HEAD~0 表示当前版本
 - HEAD~1 上一个版本
-- HEAD^2 上上一个版本
-- HEAD^3 上上上一个版本
+- HEAD~2 上上一个版本
+- HEAD~3 上上上一个版本
 
 ## 1.6克隆远程项目
 
 - git clone [url] [name]
 
     url填写项目的网址，name（可选项）为项目保存到本地时的名字，当执行命令时，会把远程项目完整克隆到本地。
+
+## 1.7文件删除
+
+- `git rm <file>`
+
+    将文件从从工作区、暂存区删除
+
+- `git rm -f <file>`
+
+    如果删除之前修改过并且已经放到暂存区域的话，需要加 -f 强制删除
+
+- `git rm --cached [file]`
+
+    从暂存区删除一个文件，工作区仍然保留这个文件
 
 # 2.git分支
 
@@ -138,6 +149,44 @@ git:分布式版本控制工具，它具有以下几个概念
 
 # 3.github
 
-github [https://github.com](https://github.com)
+github 网址：[https://github.com](https://github.com)
 
 全球最大的男同交流网站，你还在等什么？进来打开新世界的大门！看点不一样的刺激项目！
+
+## 3.1推送本地项目到远程库
+
+首先GitHub仓库需要添加ssh key
+
+在git bash中输入命令`$ ssh-keygen -t rsa -C "youremail@example.com"`,@后面改为自己GitHub的邮箱，成功的话会在 **~/** 下生成 **.ssh** 文件夹，进去，打开 **id_rsa.pub**，复制里面的 **key**。然后粘贴到GitHub上，并为这个key起个名字
+
+![image-20230306223304448](images/image-20230306223304448.png)
+
+- `git remote -v`
+
+    显示所有远程仓库
+
+- `git remote add [shortname] [url]`
+
+    添加远程仓库的项目到本地，shortname是给仓库起的别名
+
+- `git push <远程主机名> <本地分支名>:<远程分支名>`
+
+    用于把本地项目上传到远程仓库，**注意：本地项目要先用git init命令初始化后，commit后，才能使用push命令上传。**
+
+    如果本地分支名与远程分支名相同，可以忽略`:<远程分支名>`。
+
+    `<远程主机名>`可以是远程仓库的url或者用git remote add时起的shortname。
+
+- `git remote rm name`
+
+    删除远程仓库
+
+- `git remote rename old_name new_name`
+
+    修改仓库别名
+
+## 3.2远程获取代码并合并本地的版本
+
+- `git pull <远程主机名> <远程分支名>:<本地分支名>`
+
+    把远程主机名对应的分支合并到本地分支，如果忽略`:<本地分支名>`，默认将远程分支合并到现在控制台所显示的分支。
