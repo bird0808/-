@@ -146,6 +146,10 @@ git:分布式版本控制工具，它具有以下几个概念
     假如当前处于master分支，执行git merge hot，将会把hot分支合并到master分支
 
     **当产生合并冲突，需要手动修改冲突的文件，可以通过vim进入冲突文件然后进行修改，然后使用git add 提交冲突的文件，再git commit命令提交，才能合并成功。**
+    
+- `git push origin -d remoteBranchName`
+
+    删除一个远程分支，origin是远程仓库名。
 
 # 3.github
 
@@ -155,7 +159,7 @@ github 网址：[https://github.com](https://github.com)
 
 ## 3.1推送本地项目到远程库
 
-首先GitHub仓库需要添加ssh key
+首先GitHub仓库需要添加ssh key，然后push项目就可以使用ssh地址实现免密推送。
 
 在git bash中输入命令`$ ssh-keygen -t rsa -C "youremail@example.com"`,@后面改为自己GitHub的邮箱，成功的话会在 **~/** 下生成 **.ssh** 文件夹，进去，打开 **id_rsa.pub**，复制里面的 **key**。然后粘贴到GitHub上，并为这个key起个名字
 
@@ -185,6 +189,14 @@ github 网址：[https://github.com](https://github.com)
 
     修改仓库别名
 
+**注意**：
+
+在进行push操作时，如果失败，很有可能是因为本地文件与远程仓库的文件冲突，这时候推荐pull远程仓库下来，然后手动修改冲突的文件，再进行push。
+
+修改时，查找<<<<<<< HEAD ，`=======` ，>>>>>>> 这样标识符的内容即为冲突部分内容。确定保留代码后，删除掉标识符，保存内容。
+
+然后再add和commit，再push就不会报错了。
+
 ## 3.2远程获取代码并合并本地的版本
 
 - `git pull <远程主机名> <远程分支名>:<本地分支名>`
@@ -201,4 +213,12 @@ github 网址：[https://github.com](https://github.com)
 
     删除远程tag
 
-- 
+## 3.4团队协作
+
+- 同团队协作
+
+    通常成员通过pull拉取最新的代码到本地，然后修改，提交，再push到远程库，如果push出现冲突，需要手动修改冲突的地方，或着版本迭代手动合并。
+
+- 不同团队协作
+
+    其他团队先通过fork把项目复制到GitHub自己的仓库，然后pull下来到本地，修改提交，再push到自己GitHub的仓库，最后可以通过pull request向实际项目开发团队申请合并更新的项目。
