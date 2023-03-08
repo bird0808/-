@@ -2233,7 +2233,7 @@ public class UserTest {
 
 #####  ②场景二：set注入
 
-修改UserServiceImpl类
+修改UserServiceImpl类 
 
 ```java
 package com.atguigu.spring6.service.impl;
@@ -2711,7 +2711,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-//@ComponentScan({"com.atguigu.spring6.controller", "com.atguigu.spring6.service","com.atguigu.spring6.dao"})
+//@ComponentScan({"com.atguigu.spring6.controller", "com.atguigu.spring6.service","com.atguigu.spring6.dao"})添加多个扫描包
 @ComponentScan("com.atguigu.spring6")
 public class Spring6Config {
 }
@@ -2722,7 +2722,9 @@ public class Spring6Config {
 ```java
 @Test
 public void testAllAnnotation(){
+    //使用配置类，获取配置类，不用再加载配置文件。
     ApplicationContext context = new AnnotationConfigApplicationContext(Spring6Config.class);
+    
     UserController userController = context.getBean("userController", UserController.class);
     userController.out();
     logger.info("执行成功");
@@ -3021,7 +3023,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD})
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.RU NTIME)
 public @interface Di {
 }
 ```
@@ -3142,7 +3144,7 @@ public class AnnotationApplicationContext implements ApplicationContext {
                                         System.out.println("正在加载【"+ aClass.getInterfaces()[0] +"】,实例对象是：" + instance.getClass().getName());
                                         beanFactory.put(aClass.getInterfaces()[0], instance);
                                     }else{
-                                        //如果有接口把自己的class当成key，实例对象当成value
+                                        //如果没有接口把自己的class当成key，实例对象当成value
                                         System.out.println("正在加载【"+ aClass.getName() +"】,实例对象是：" + instance.getClass().getName());
                                         beanFactory.put(aClass, instance);
                                     }
