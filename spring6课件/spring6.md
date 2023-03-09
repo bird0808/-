@@ -3597,8 +3597,8 @@ public class ProxyFactory {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 /**
-                 * proxy：代理对象
-                 * method：代理对象需要实现的方法，即其中需要重写的方法
+                 * proxy：被代理的对象
+                 * method：被代理的对象需要实现的方法，即其中需要重写的方法
                  * args：method所对应方法的参数
                  */
                 Object result = null;
