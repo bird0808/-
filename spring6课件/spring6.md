@@ -4813,10 +4813,10 @@ public class TxByAnnotationTest {
 在Spring的配置文件中添加配置：
 
 ```xml
+<!--配置事务管理器-->
 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
     <property name="dataSource" ref="druidDataSource"></property>
 </bean>
-
 <!--
     开启事务的注解驱动
     通过注解@Transactional所标识的方法或标识的类中所有的方法，都会被事务管理器管理事务
@@ -4923,7 +4923,7 @@ org.springframework.transaction.**TransactionTimedOutException**: Transaction ti
 - rollbackForClassName属性：需要设置一个字符串类型的全类名
 
 - noRollbackFor属性：需要设置一个Class类型的对象
-- rollbackFor属性：需要设置一个字符串类型的全类名
+- nollbackFor属性：需要设置一个字符串类型的全类名
 
 **②使用方式**
 
@@ -5125,6 +5125,10 @@ public class SpringConfig {
 }
 ```
 
+1、Spring的@Bean注解用于告诉方法，产生一个Bean对象，然后这个Bean对象交给Spring管理。 产生这个Bean对象的方法Spring只会调用一次，随后这个Spring将会将这个Bean对象放在自己的IOC容器中。
+
+2、@Component , @Repository , @ Controller , @Service 这些注解只局限于自己编写的类，而@Bean注解能把第三方库中的类实例加入IOC容器中并交给spring管理。
+
 **②测试**
 
 ```java
@@ -5270,7 +5274,7 @@ isReadable(): 表明资源的目录读取是否通过getInputStream()进行读�
 isFile(): 表明这个资源是否代表了一个文件系统的文件。
 getURL(): 返回一个URL句柄，如果资源不能够被解析为URL，将抛出IOException
 getURI(): 返回一个资源的URI句柄
-getFile(): 返回某个文件，如果资源不能够被解析称为绝对路径，将会抛出FileNotFoundException
+getFile(): 返回某个文件，如果资源不能够被解析成为绝对路径，将会抛出FileNotFoundException
 lastModified(): 资源最后一次修改的时间戳
 createRelative(): 创建此资源的相关资源
 getFilename(): 资源的文件名是什么 例如：最后一部分的文件名 myfile.txt
@@ -5709,7 +5713,7 @@ public class Demo4 {
 
 （3）XmlWebApplicationContext ： 对应使用ServletContextResource进行资源访问。
 
-当使用ApplicationContext的不同实现类时，就意味着Spring使用响应的资源访问策略。
+当使用ApplicationContext的不同实现类时，就意味着Spring使用相应的资源访问策略。
 
 效果前面已经演示
 
@@ -5762,6 +5766,12 @@ System.out.println(ctx);
 **注意 ：** 
 
 classpath * : 前缀仅对ApplicationContext有效。实际情况是，创建ApplicationContext时，分别访问多个配置文件(通过ClassLoader的getResource方法实现)。因此，classpath * :前缀不可用于Resource。
+
+classpath：只会到你的class路径中查找找文件;
+
+classpath*：不仅包含class路径，还包括jar文件中(class路径)进行查找。
+
+在多个classpath中存在同名资源，都需要加载时，那么用classpath:只会加载第一个，这种情况下也需要用classpath*:前缀。
 
 
 
@@ -5890,6 +5900,8 @@ www.atguigu.com=欢迎 {0},时间:{1}
 
 
 **第二步 创建spring配置文件，配置MessageSource**
+
+**注意：id必须是messageSource，class必须是org.springframework.context.support.ResourceBundleMessageSource**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
