@@ -6215,7 +6215,7 @@ public class MyService2 {
     public boolean validaPersonByValidator(User user) {
         BindException bindException = new BindException(user, user.getName());
         validator.validate(user, bindException);
-        return bindException.hasErrors();
+        return bindException.hasErrors();//true表示有错误！！！！！
     }
 }
 ```
