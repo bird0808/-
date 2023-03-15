@@ -1,4 +1,5 @@
 # Mybatis简介
+
 ## MyBatis历史
 -    MyBatis最初是Apache的一个开源项目iBatis, 2010年6月这个项目由Apache Software Foundation迁移到了Google Code。随着开发团队转投Google Code旗下，iBatis3.x正式更名为MyBatis。代码于2013年11月迁移到Github
 - iBatis一词来源于“internet”和“abatis”的组合，是一个基于Java的持久层框架。iBatis提供的持久层框架包括SQL Maps和Data Access Objects（DAO）
@@ -415,6 +416,7 @@ public void insertUser() {
 }
 ```
 ## 使用@Param标识参数
+
 - 可以通过@Param注解标识mapper接口中的方法参数，此时，会将这些参数放在map集合中 
 
 	1. 以@Param注解的value属性值为键，以参数为值；
@@ -448,7 +450,9 @@ public void checkLoginByParam() {
 	1. 实体类类型的LIst集合接收
 	2. Map类型的LIst集合接收
 	3. 在mapper接口的方法上添加@MapKey注解
+
 ## 查询一个实体类对象
+
 ```java
 /**
  * 根据用户id查询用户信息
@@ -522,7 +526,7 @@ Map<String, Object> getUserToMap(@Param("id") int id);
 List<Map<String, Object>> getAllUserToMap();
 ```
 ```xml
-<!--Map<String, Object> getAllUserToMap();-->  
+<!--List<Map<String, Object>> getAllUserToMap();-->  
 <select id="getAllUserToMap" resultType="map">  
 	select * from t_user  
 </select>
@@ -571,13 +575,14 @@ List<User> getUserByLike(@Param("username") String username);
 ```xml
 <!--List<User> getUserByLike(@Param("username") String username);-->
 <select id="getUserByLike" resultType="User">
-	<!--select * from t_user where username like '%${mohu}%'-->  
-	<!--select * from t_user where username like concat('%',#{mohu},'%')-->  
-	select * from t_user where username like "%"#{mohu}"%"
+	<!--select * from t_user where username like '%${username}%'-->  
+	<!--select * from t_user where username like concat('%',#{username},'%')-->  
+	select * from t_user where username like "%"#{username}"%"
 </select>
 ```
-- 其中`select * from t_user where username like "%"#{mohu}"%"`是最常用的
+- 其中`select * from t_user where username like "%"#{username}"%"`是最常用的
 ## 批量删除
+
 - 只能使用\${}，如果使用#{}，则解析后的sql语句为`delete from t_user where id in ('1,2,3')`，这样是将`1,2,3`看做是一个整体，只有id为`1,2,3`的数据会被删除。正确的语句应该是`delete from t_user where id in (1,2,3)`，或者`delete from t_user where id in ('1','2','3')`
 ```java
 /**
@@ -621,16 +626,13 @@ List<User> getUserByTable(@Param("tableName") String tableName);
 </select>
 ```
 ## 添加功能获取自增的主键
-- 使用场景
-	- t_clazz(clazz_id,clazz_name)  
-	- t_student(student_id,student_name,clazz_id)  
-	1. 添加班级信息  
-	2. 获取新添加的班级的id  
-	3. 为班级分配学生，即将某学的班级id修改为新添加的班级的id
+
 - 在mapper.xml中设置两个属性
 	- useGeneratedKeys：设置使用自增的主键  
 	
-	* keyProperty：因为增删改有统一的返回值是受影响的行数，因此只能将获取的自增的主键放在传输的参数user对象的某个属性中
+	* keyProperty：因为增删改的返回值固定为影响的行数，所以通过这个属性设置自增主键应该返回类中的那个属性
+	
+	**下面插入一个学生，并获取学生自增的id，然后返回User类的id属性中**
 ```java
 /**
  * 添加用户信息
@@ -659,6 +661,7 @@ public void insertUser() {
 ```
 # 自定义映射resultMap
 ## resultMap处理字段和属性的映射关系
+
 - resultMap：设置自定义映射  
 	- 属性：  
 		- id：表示自定义映射的唯一标识，不能重复
@@ -698,7 +701,9 @@ public void insertUser() {
 	    <setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
 		```
+
 ## 多对一映射处理
+
 >查询员工信息以及员工所对应的部门信息
 ```java
 public class Emp {  
@@ -712,6 +717,7 @@ public class Emp {
 }
 ```
 ### 级联方式处理映射关系
+
 ```xml
 <resultMap id="empAndDeptResultMapOne" type="Emp">
 	<id property="eid" column="eid"></id>
@@ -728,6 +734,7 @@ public class Emp {
 </select>
 ```
 ### 使用association处理映射关系
+
 - association：处理多对一的映射关系
 - property：需要处理多对的映射关系的属性名
 - javaType：该属性的类型
@@ -749,6 +756,7 @@ public class Emp {
 </select>
 ```
 ### 分步查询
+
 #### 1. 查询员工信息
 - select：设置分布查询的sql的唯一标识（namespace.SQLId或mapper接口的全类名.方法名）
 - column：设置分步查询的条件
@@ -770,6 +778,7 @@ Emp getEmpAndDeptByStepOne(@Param("eid") Integer eid);
 	<result property="age" column="age"></result>
 	<result property="sex" column="sex"></result>
 	<result property="email" column="email"></result>
+    <!-- 这里select写的是mapper接口中的方法 -->
 	<association property="dept"
 				 select="com.atguigu.mybatis.mapper.DeptMapper.getEmpAndDeptByStepTwo"
 				 column="did"></association>
@@ -812,8 +821,9 @@ public class Dept {
 }
 ```
 ### collection
+
 - collection：用来处理一对多的映射关系
-- ofType：表示该属性对饮的集合中存储的数据的类型
+- ofType：表示该属性对应的集合中存储的数据的类型
 ```xml
 <resultMap id="DeptAndEmpResultMap" type="Dept">
 	<id property="did" column="did"></id>
@@ -927,6 +937,7 @@ public void getEmpAndDeptByStepOne() {
 # 动态SQL
 - Mybatis框架的动态SQL技术是一种根据特定条件动态拼装SQL语句的功能，它存在的意义是为了解决拼接SQL语句字符串时的痛点问题
 ## if
+
 - if标签可通过test属性（即传递过来的数据）的表达式进行判断，若表达式的结果为true，则标签中的内容会执行；反之标签中的内容不会执行
 - 在where后面添加一个恒成立条件`1=1`
 	- 这个恒成立条件并不会影响查询的结果

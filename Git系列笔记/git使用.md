@@ -15,10 +15,10 @@ git:分布式版本控制工具，它具有以下几个概念
 
 - `git config --global user.name bigbigbird`
     设置用户名
-
 - `git config --global user.email 12345678@qq.com`
     设置用户邮箱
     设置后可以在c盘用户目录下的.gitconfig下查看
+- `git config --list`：查看自己设置的配置
 
 ## 1.2初始化本地库
 
