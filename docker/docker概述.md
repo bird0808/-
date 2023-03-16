@@ -1,4 +1,4 @@
-# 什么是docker
+# 1.什么是docker
 
 docker是一种容器化技术，不同于虚拟机需要加载一个操作系统的所有东西，docker可以根据软件需要，创建运行时所需要的最小依赖，从而减少资源的浪费。
 
@@ -14,7 +14,9 @@ Docker利用的是宿主机的内核，而不需要加载操作系统OS内核：
 
 Docker容器的本质就是一个进程。
 
-# 镜像，容器，仓库
+docker是基于linux运行的，即使安装windows版，还是要建立一个linux虚拟机环境。
+
+# 2.镜像，容器，仓库
 
 Docker镜像就是一个只读的模板。镜像可以用来创建Docker容器，一个镜像可以创建多个容器。
 
@@ -26,6 +28,20 @@ Docker仓库是集中存放镜像文件的场所。
 
 最大的公开仓库是Docker官方的Docker Hub：https://hub.docker.com/
 
-# 虚悬镜像
+# 3.虚悬镜像
 
 镜像名、标签都是<none>的镜像，没什么用，可以删除
+
+# 4.镜像的分层概念
+
+UnionFS(联合文件系统):Union文件系统(UnionFS)是一种分层、轻量级并且高性能的文件系统，它支持对文件系统的修改作为一次提交来一层层的叠加，同时可以将不同目录挂载到同一个虚拟文件系统下(unite several directories into a single virtual filesystem)。Union文件系统是Docker镜像的基础。镜像可以通过分层来进行继承，基于基础镜像（没有父镜像)，可以制作各种具体的应用镜像。
+
+特性:一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录。
+
+docker的镜像实际上由一层一层的文伴系统组成，这种层级的文件系统UnionFS
+bootfs(boot fle system)主要包含bootioader和kernel, bootloader主要是引导加载kernel, Linux刚启动时会加载bootfs文件系统，在Docker镜像的最底层是引导文件系统bootfs。这一层与我们典型的Linux/Unix系统是一样的，包含bootfs加载器和内核。当boot加载完成之后整个内核就都在内存中了，此时内存的使用权已由bootfs转交给内核，此时系统也会卸载bootfs。
+rootfs (root file system)，在bootfs之上。包含的就是典型Linux系统中的/dev, /proc, /bin, /etc等标准目录和文件。rootfs就是各种不同的操作系统发行版，比如Ubuntu，Centos等等。
+
+由于镜像是一层一层分层的，所以可以进行复用、共享。
+
+![image-20230315192306182](images/image-20230315192306182.png)
