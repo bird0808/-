@@ -52,6 +52,8 @@ SIZE:镜像大小
 
 `docker rmi -f $(docker images -qa)`：删除全部镜像
 
+`docker image prune`：删除所有的虚悬镜像
+
 # 3.容器命令
 
 ## 3.1容器创建
@@ -90,9 +92,7 @@ SIZE:镜像大小
 
 ### 示例：
 
-1. `docker run -it ubuntu /bin/bash`：启动一个Ubuntu容器，并新建一个终端和Ubuntu交互
-
-使用ctrl+p+q可以退出交互式终端，退出后容器依然运行，使用 exit；也可以退出，但是会关闭容器。
+1. `docker run -it ubuntu bash`：启动一个Ubuntu容器，并新建一个终端和Ubuntu交互，使用ctrl+p+q可以退出交互式终端，退出后容器依然运行，使用 exit；也可以退出，但是会关闭容器。
 
 2. `docker run -it --name=myubuntu ubuntu`：启动一个Ubuntu容器并设置名字为myubuntu。
 
@@ -104,7 +104,7 @@ SIZE:镜像大小
 
 ## 3.2重新进入容器
 
-`docker exec -it 容器ID /bin/bash`
+`docker exec -it 容器ID bash`
 
 `docker attach 容器ID`
 
@@ -192,11 +192,13 @@ SIZE:镜像大小
 
 其中可以通过多个-v挂载多个容器卷。
 
+如果只填写一个目录，那么容器目录会自动创建并映射一个宿主机的目录。
+
 **注意路径填绝对路径**
 
 **示例：**
 
-- `docker run -it  --privileged=true -v /home/kailuser/masterdata:/tmp/dockerdata:ro ubuntu /bin/bash`:
+- `docker run -it  --privileged=true -v /home/kailuser/masterdata:/tmp/dockerdata:ro ubuntu bash`:
 
     启动Ubuntu容器示例，挂载宿主机的`/home/kailuser/masterdata`到容器的`/tmp/dockerdata`，注意填写**绝对路径**，ro设置docker容器只能读这个文件夹，不能写、添加文件！
 
