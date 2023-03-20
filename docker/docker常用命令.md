@@ -202,4 +202,21 @@ SIZE:镜像大小
 
     启动Ubuntu容器示例，挂载宿主机的`/home/kailuser/masterdata`到容器的`/tmp/dockerdata`，注意填写**绝对路径**，ro设置docker容器只能读这个文件夹，不能写、添加文件！
 
-    
+
+## 3.8.1数据卷其他命令
+
+`docker volume prune`：删除无用的数据卷
+
+`docker volume ls`:列出所有容器数据卷
+
+`docker volume rm name`：删除一个容器数据卷
+
+# 4.镜像加速
+
+登录阿里云[容器镜像服务 (aliyun.com)](https://cr.console.aliyun.com/cn-shenzhen/instances/mirrors)
+
+按照提示修改文件：`/etc/docker/daemon.json`
+
+然后使用`systemctl daemon-reload`和
+
+`systemctl restart docker`重启docker
