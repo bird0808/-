@@ -172,9 +172,9 @@ services:
 
 hadoop.env：
 
-```
-CORE_CONF_fs_defaultFS=hdfs://namenode:9000
-CORE_CONF_hadoop_http_staticuser_user=root
+```e
+CORE_CONF_fs_defaultFS=hdfs://namenode:9000 #namenode地址 
+CORE_CONF_hadoop_http_staticuser_user=root #配置HDFS网页登录使用的静态用户为root
 CORE_CONF_hadoop_proxyuser_hue_hosts=*
 CORE_CONF_hadoop_proxyuser_hue_groups=*
 CORE_CONF_io_compression_codecs=org.apache.hadoop.io.compress.SnappyCodec
