@@ -50,6 +50,8 @@ Compose使用的三个步骤：
 
 `docker-compose stop`：停止服务
 
+在新版中把docker-compose改成了docker compose
+
 # yml编排示例
 
 注意放在docker命名运行的目录下
@@ -123,6 +125,7 @@ services:
     ports:
       - 9870:9870
       - 9000:9000
+      - 19888:19888
     volumes:
       - ./hadoop/dfs/name:/hadoop/dfs/name
       - ./input:/input
@@ -136,6 +139,8 @@ services:
     container_name: datanode
     depends_on:
       - namenode
+    ports:
+      - 9864:9864
     volumes:
       - ./hadoop/dfs/data:/hadoop/dfs/data
     environment:
@@ -146,6 +151,8 @@ services:
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
     container_name: resourcemanager
+    ports:
+      - 8088:8088
     environment:
       SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
     env_file:
@@ -173,8 +180,8 @@ services:
 hadoop.env：
 
 ```e
-CORE_CONF_fs_defaultFS=hdfs://namenode:9000 #namenode地址 
-CORE_CONF_hadoop_http_staticuser_user=root #配置HDFS网页登录使用的静态用户为root
+CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+CORE_CONF_hadoop_http_staticuser_user=root 
 CORE_CONF_hadoop_proxyuser_hue_hosts=*
 CORE_CONF_hadoop_proxyuser_hue_groups=*
 CORE_CONF_io_compression_codecs=org.apache.hadoop.io.compress.SnappyCodec
@@ -185,7 +192,7 @@ HDFS_CONF_dfs_namenode_datanode_registration_ip___hostname___check=false
 
 YARN_CONF_yarn_log___aggregation___enable=true
 YARN_CONF_yarn_log_server_url=http://historyserver:8188/applicationhistory/logs/
-YARN_CONF_yarn_resourcemanager_recovery_enabled=true
+YARN_CONF_yarn_resourcemanager_recovery_enabled=true      
 YARN_CONF_yarn_resourcemanager_store_class=org.apache.hadoop.yarn.server.resourcemanager.recovery.FileSystemRMStateStore
 YARN_CONF_yarn_resourcemanager_scheduler_class=org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler
 YARN_CONF_yarn_scheduler_capacity_root_default_maximum___allocation___mb=8192
@@ -206,6 +213,11 @@ YARN_CONF_yarn_nodemanager_resource_cpu___vcores=8
 YARN_CONF_yarn_nodemanager_disk___health___checker_max___disk___utilization___per___disk___percentage=98.5
 YARN_CONF_yarn_nodemanager_remote___app___log___dir=/app-logs
 YARN_CONF_yarn_nodemanager_aux___services=mapreduce_shuffle
+
+#配置日志
+YARN_CONF_yarn_log___aggregation___enable=true
+YARN_CONF_yarn_log_server_url=http://172.18.0.3:19888/jobhistory/logs
+YARN_CONF_yarn_log___aggregation_retain___seconds=604800
 
 MAPRED_CONF_mapreduce_framework_name=yarn
 MAPRED_CONF_mapred_child_java_opts=-Xmx4096m
