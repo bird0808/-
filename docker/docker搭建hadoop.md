@@ -1,3 +1,7 @@
+[JDK下载地址](https://www.oracle.com/java/technologies/downloads/#java8)
+
+[hadoop下载地址](http://archive.apache.org/dist/hadoop/common/)
+
 # 1.构建java与hadoop的基础镜像
 
 1. 新建目录`mkdir docker-hadoop`
@@ -32,7 +36,7 @@
     EXPOSE 22
     CMD ["/opt/run.sh"]
     ```
-    
+
     运行`docker build -t centos_hadoop:1.0 .`，生成镜像。
 
 # 2.构建docker-compose 
@@ -119,8 +123,11 @@ networks:
     ```
 
 2. 配置ssh免密登录！由于hadoop需要ssh，所以先配置ssh免密登录。
-    在hadoop102上执行 `ssh-keygen -t rsa` 生成密匙，然后将公钥拷贝到另外两台机器，使用`ssh-copy-id hadoop103`、`ssh-copy-id hadoop104`,同样的，**注意在hadoop103和hadoop104上也执行同样的操作，生成秘钥并拷贝到其他两台机器，配置免密登录。**
+    在hadoop102上执行 `ssh-keygen -t rsa` 生成密匙，然后将公钥拷贝到本地以及另外两台机器，使用
 
+    `ssh-copy-id hadoop102`、`ssh-copy-id hadoop103`、`ssh-copy-id hadoop104`,
+    同样的，**注意在hadoop103和hadoop104上也执行同样的操作，生成秘钥并拷贝到本地以及其他两台机器，配置免密登录。**
+    
 3. 修改hadoop的五个配置文件：`core-site.xml`、` hdfs-site.xml` 、`yarn-site.xml`、`mapred-site.xml`、`workers`
     进入hadoop存放配置文件的目录`cd /opt/service/hadoop-3.1.3/etc/hadoop`，**上面的配置文件都是在这个目录下！**
 
@@ -188,9 +195,9 @@ networks:
         </property>
         
         <!-- 开启日志聚集功能 -->
-    <property>
+        <property>
             <name>yarn.log-aggregation-enable</name>
-        <value>true</value>
+            <value>true</value>
         </property>
         <!-- 设置日志聚集服务器地址 -->
         <property>  
@@ -200,13 +207,13 @@ networks:
         <!-- 设置日志保留时间为7天 -->
         <property>
             <name>yarn.log-aggregation.retain-seconds</name>
-        <value>604800</value>
+            <value>604800</value>
         </property>
     </configuration>
     ```
-    
+
     `vim mapred-site.xml`
-    
+
     ```xml
     <configuration>
     	<!-- 指定MapReduce程序运行在Yarn上 -->
@@ -228,7 +235,7 @@ networks:
         </property>
     </configuration>
     ```
-    
+
 4. 修改配置文件workers，`vim workers`，把原本的localhost删除
 
     ```
@@ -282,24 +289,28 @@ networks:
 
 9. 启动yarn，使用`docker exec -it hadoop103 bash`进入hadoop103，在hadoop103上执行`start-yarn.sh`
 
+**补充**：
+
+这时候虚拟机进去namenode web 查看ip与节点的关系
+链接格式：(http://192.19.0.103:9870/dfshealth.html#tab-datanode) 注意ip地址为namenode的地址
+
+然后修改`/etc/hosts`文件，修改了之后就可以在虚拟机的网页上传文件了
+![host文件](images/image-20230326235249659.png)
+
+<img src="images/image-20230326234445398.png" alt="image-20230326234445398" style="zoom:80%;" />
+
 **这时候去window打开namenode网页是无法上传的**
 
-这时候虚拟机进去那么namenode web查看ip映射，把他写到/etc/hosts里，然后就可以在虚拟机的web页面上传文件。
-
-**如果想要在windows上传文件，请添加到虚拟机ip的路由，然后修改windows的host文件，映射ip与hadoop集群的关系**
-
-![image-20230326192306734](images/image-20230326192306734.png)
-
-![image-20230326192420017](images/image-20230326192420017.png)
-
-`route add 172.19.0.0 mask 255.255.0.0 192.168.50.3`
+**如果想要在windows上传文件，windows请添加到虚拟机ip（192.168.50.3）的路由`route add 172.19.0.0 mask 255.255.0.0 192.168.50.3`，然后修改windows的host文件并保存 替换，映射ip与hadoop集群的关系**
+然后访问http://192.168.50.3:9870/dfshealth.html#tab-overview ，**ip地址注意为虚拟机的ip地址**，经测试上传文件有超时的bug，最好在虚拟机的网页上传测试。
 
 <img src="images/image-20230326225527589.png" alt="image-20230326225527589" style="zoom:50%;" />
 
-补充：
+<img src="images/image-20230326234902433.png" alt="image-20230326234902433" style="zoom: 67%;" />
 
 使用docker cp命令备份设置文件，方便以后错误了删除集群重新配置。
 
 `docker cp hadoop102:/etc/profile.d/my_env.sh ./my_env.sh`
 
 `docker cp hadoop102:/opt/service/hadoop-3.1.3/etc/hadoop ./hadoop`
+
