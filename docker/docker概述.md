@@ -1,5 +1,7 @@
 # 1.什么是docker
 
+docker的官方下载教程：[Install Docker Engine](https://docs.docker.com/engine/install/)
+
 docker是一种容器化技术，不同于虚拟机需要加载一个操作系统的所有东西，docker可以根据软件需要，创建运行时所需要的最小依赖，从而减少资源的浪费。
 
 docker的安全性和隔离性不如虚拟机，但是部署应用要比用虚拟机快。
