@@ -286,9 +286,15 @@ networks:
 
 这时候虚拟机进去那么namenode web查看ip映射，把他写到/etc/hosts里，然后就可以在虚拟机的web页面上传文件。
 
+**如果想要在windows上传文件，请添加到虚拟机ip的路由，然后修改windows的host文件，映射ip与hadoop集群的关系**
+
 ![image-20230326192306734](images/image-20230326192306734.png)
 
 ![image-20230326192420017](images/image-20230326192420017.png)
+
+`route add 172.19.0.0 mask 255.255.0.0 192.168.50.3`
+
+<img src="images/image-20230326225527589.png" alt="image-20230326225527589" style="zoom:50%;" />
 
 补充：
 
@@ -297,4 +303,3 @@ networks:
 `docker cp hadoop102:/etc/profile.d/my_env.sh ./my_env.sh`
 
 `docker cp hadoop102:/opt/service/hadoop-3.1.3/etc/hadoop ./hadoop`
-
