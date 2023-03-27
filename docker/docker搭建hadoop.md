@@ -2,12 +2,14 @@
 
 [hadoop下载地址](http://archive.apache.org/dist/hadoop/common/)
 
+[Docker Engine 下载概览](https://docs.docker.com/engine/install/)
+
 # 1.构建java与hadoop的基础镜像
 
 1. 新建目录`mkdir docker-hadoop`
 
 2. 使用`rz -E` 上传`jdk1.8`的`tar.gz`压缩包和hadoop3.1.3的压缩包
-    ![image-20230326144056910](images/image-20230326144056910.png)
+![image-20230326144056910](images/image-20230326144056910.png)
 
 3. 编辑Dockerfile文件，构建一个带ssh、java、hadoop、vim环境的centos镜像
 
@@ -54,6 +56,8 @@ Hadoop 3.x 中常用的端口如下：
 - 8088：ResourceManager Web 界面（YARN）
 - 9864：DataNode Web 界面（HDFS）
 - 8042：NodeManager Web 界面（YARN）
+
+`docker-compose.yml`：
 ```yaml
 version: "3"
 services:
@@ -95,6 +99,10 @@ networks:
       config:
         - subnet: "172.19.0.0/16"
 ```
+编辑好后使用`docker-compose config -q` 检查是否有错误输出，有错误请修改。
+无错误使用`docker-compose up -d` 启动集群。
+
+最新版的docker貌似没有docker-compose命令，而是docker comspose命令，少了一个 - 。
 
 # 3.设置hadoop的配置并分发到其他机器
 
@@ -308,7 +316,7 @@ networks:
 
 <img src="images/image-20230326234902433.png" alt="image-20230326234902433" style="zoom: 67%;" />
 
-使用docker cp命令备份设置文件，方便以后错误了删除集群重新配置。
+可以退出容器，使用docker cp命令备份设置文件，方便以后错误了删除集群重新配置。
 
 `docker cp hadoop102:/etc/profile.d/my_env.sh ./my_env.sh`
 
