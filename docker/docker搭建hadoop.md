@@ -160,11 +160,36 @@ networks:
             <name>hadoop.http.staticuser.user</name>
             <value>root</value>
         </property>
+        <!--web console cors settings-->
+        <property>
+        <name>hadoop.http.filter.initializers</name>
+            <value>org.apache.hadoop.security.HttpCrossOriginFilterInitializer</value>
+    </property>
+        <property>
+            <name>hadoop.http.cross-origin.enabled</name>
+            <value>true</value>
+        </property>
+        <property>
+            <name>hadoop.http.cross-origin.allowed-origins</name>
+            <value>*</value>
+        </property>
+        <property>
+            <name>hadoop.http.cross-origin.allowed-methods</name>
+            <value>GET,POST,HEAD</value>
+        </property>
+        <property>
+            <name>hadoop.http.cross-origin.allowed-headers</name>
+        <value>X-Requested-With,Content-Type,Accept,Origin</value>
+        </property>
+    <property>
+            <name>hadoop.http.cross-origin.max-age</name>
+            <value>1800</value>
+        </property>
     </configuration>
     ```
-
+    
     `vim hdfs-site.xml` 
-
+    
     ```xml
     <configuration>
     	<!-- nn web端访问地址-->
@@ -179,9 +204,9 @@ networks:
         </property>
     </configuration>
     ```
-
+    
     `vim yarn-site.xml`
-
+    
     ```xml
     <configuration>
         <!-- 指定MR走shuffle -->
@@ -194,9 +219,9 @@ networks:
         <property>
             <name>yarn.resourcemanager.hostname</name>
             <value>hadoop103</value>
-        </property>
+    </property>
     
-        <!-- 环境变量的继承 -->
+    <!-- 环境变量的继承 -->
         <property>
             <name>yarn.nodemanager.env-whitelist</name>
             <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
@@ -218,10 +243,10 @@ networks:
             <value>604800</value>
         </property>
     </configuration>
-    ```
-
+```
+    
     `vim mapred-site.xml`
-
+    
     ```xml
     <configuration>
     	<!-- 指定MapReduce程序运行在Yarn上 -->
@@ -243,7 +268,7 @@ networks:
         </property>
     </configuration>
     ```
-
+    
 4. 修改配置文件workers，`vim workers`，把原本的localhost删除
 
     ```
@@ -310,7 +335,7 @@ networks:
 **这时候去window打开namenode网页是无法上传的**
 
 **如果想要在windows上传文件，windows请添加到虚拟机ip（192.168.50.3）的路由`route add 172.19.0.0 mask 255.255.0.0 192.168.50.3`，然后修改windows的host文件并保存 替换，映射ip与hadoop集群的关系**
-然后访问http://192.168.50.3:9870/dfshealth.html#tab-overview ，**ip地址注意为虚拟机的ip地址**，经测试上传文件有超时的bug，最好在虚拟机的网页上传测试。
+然后访问http://hadoop102:9870/dfshealth.html#tab-overview ，**ip地址注意去windows的hosts文件配置映射。**还有！！如果开了梯子之类的玩意会访问失败！！！
 
 <img src="images/image-20230326225527589.png" alt="image-20230326225527589" style="zoom:50%;" />
 
