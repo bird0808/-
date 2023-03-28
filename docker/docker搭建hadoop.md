@@ -243,6 +243,7 @@ networks:
             <value>604800</value>
         </property>
     </configuration>
+    ```
 ```
     
     `vim mapred-site.xml`
@@ -267,8 +268,8 @@ networks:
             <value>hadoop102:19888</value>
         </property>
     </configuration>
-    ```
-    
+```
+
 4. 修改配置文件workers，`vim workers`，把原本的localhost删除
 
     ```
@@ -335,11 +336,14 @@ networks:
 **这时候去window打开namenode网页是无法上传的**
 
 **如果想要在windows上传文件，windows请添加到虚拟机ip（192.168.50.3）的路由`route add 172.19.0.0 mask 255.255.0.0 192.168.50.3`，然后修改windows的host文件并保存 替换，映射ip与hadoop集群的关系**
-然后访问http://hadoop102:9870/dfshealth.html#tab-overview ，**ip地址注意去windows的hosts文件配置映射。**还有！！如果开了梯子之类的玩意会访问失败！！！
+然后访问http://hadoop102:9870/dfshealth.html#tab-overview ，ip地址注意去windows的hosts文件配置映射。还有！！如果开了梯子之类的玩意会访问失败！！！
 
 <img src="images/image-20230326225527589.png" alt="image-20230326225527589" style="zoom:50%;" />
 
 <img src="images/image-20230326234902433.png" alt="image-20230326234902433" style="zoom: 67%;" />
+
+
+
 
 可以退出容器，使用docker cp命令备份设置文件，方便以后错误了删除集群重新配置。
 
