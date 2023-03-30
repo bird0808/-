@@ -244,7 +244,7 @@ networks:
         </property>
     </configuration>
     ```
-	`vim mapred-site.xml`
+    `vim mapred-site.xml`
     
     ```xml
     <configuration>
@@ -265,7 +265,7 @@ networks:
             <name>mapreduce.jobhistory.webapp.address</name>
             <value>hadoop102:19888</value>
 	    </property>
-</configuration>
+    </configuration>
     ```
     
     
