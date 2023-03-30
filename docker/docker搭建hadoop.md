@@ -24,7 +24,7 @@
     RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo && \
     	sed -i -e '/mirrors.cloud.aliyuncs.com/d' -e '/mirrors.aliyuncs.com/d' /etc/yum.repos.d/CentOS-Base.repo && \
     	yum makecache && \
-    	yum install -y openssh-server openssh-clients && \
+    	yum install -y openssh-server openssh-clients vim && \
     	sed -i '/^HostKey/'d /etc/ssh/sshd_config && \
     	echo 'HostKey /etc/ssh/ssh_host_rsa_key' >> /etc/ssh/sshd_config && \
     	# 生成密匙
@@ -41,14 +41,14 @@
 
     运行`docker build -t centos_hadoop:1.0 .`，生成镜像。
 
-# 2.构建docker-compose 
+# 2.构建docker-compose
 
 1. 编辑`docker-compose.yml`，搭建三个节点的集群
 
-    |      | hadoop102            | hadoop103                      | hadoop104                     |
-    | :--- | :------------------- | :----------------------------- | ----------------------------- |
-    | HDFS | NameNode \| DataNode | DataNode                       | SecondaryNameNode \| DataNode |
-    | YARN | NodeManager          | ResourceManager \| NodeManager | NodeManager                   |
+|      | hadoop102            | hadoop103                      | hadoop104                     |
+| :--- | :------------------- | :----------------------------- | ----------------------------- |
+| HDFS | NameNode \| DataNode | DataNode                       | SecondaryNameNode \| DataNode |
+| YARN | NodeManager          | ResourceManager \| NodeManager | NodeManager                   |
 
 Hadoop 3.x 中常用的端口如下：
 
@@ -102,7 +102,7 @@ networks:
 编辑好后使用`docker-compose config -q` 检查是否有错误输出，有错误请修改。
 无错误使用`docker-compose up -d` 启动集群。
 
-最新版的docker貌似没有docker-compose命令，而是docker comspose命令，少了一个 - 。
+最新版的docker貌似没有docker-compose命令，而是docker comspose命令，少了一个 - 。doc
 
 # 3.设置hadoop的配置并分发到其他机器
 
@@ -244,9 +244,7 @@ networks:
         </property>
     </configuration>
     ```
-```
-    
-    `vim mapred-site.xml`
+	`vim mapred-site.xml`
     
     ```xml
     <configuration>
@@ -266,10 +264,10 @@ networks:
         <property>
             <name>mapreduce.jobhistory.webapp.address</name>
             <value>hadoop102:19888</value>
-        </property>
-    </configuration>
-```
-
+	    </property>
+</configuration>
+    ```
+    
 4. 修改配置文件workers，`vim workers`，把原本的localhost删除
 
     ```
@@ -341,7 +339,6 @@ networks:
 <img src="images/image-20230326225527589.png" alt="image-20230326225527589" style="zoom:50%;" />
 
 <img src="images/image-20230326234902433.png" alt="image-20230326234902433" style="zoom: 67%;" />
-
 
 
 

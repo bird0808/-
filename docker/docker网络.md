@@ -28,7 +28,7 @@ docker有四种网络模式：
 
 3. **none **  使用方式:`--network none`
 
-    容器有独立的 Network namespace，但并没有对齐进行任何网络设置，如分配 `veth pari` 和 网桥连接、IP等，禁用网络功能。
+    容器有独立的 Network namespace，但并没有对其进行任何网络设置，如分配 `veth pari` 和 网桥连接、IP等，禁用网络功能。
 
     在`none`模式下，并不为docker容器进行任何网络配置。进入容器内，使用 `ip addr`查看网卡信息，只能看到 `lo`（本地回环网络`127.0.0.1`网卡）。
 

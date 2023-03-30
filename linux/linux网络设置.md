@@ -1,5 +1,7 @@
 # 1. 静态ip
 
+## 1.1debian系列linux的ip设置
+
 1. `vim /etc/network/interfaces`
 
 2. 文件中添加静态ip设置，network和broadcast一般不用设置。
@@ -16,7 +18,9 @@
 
 3. 重启`service networking restart`
 
-如果是centos，要修改的文件是：`/etc/sysconfig/network-scripts/ifcfg-ens33`
+## 1.2centos的ip设置
+
+如果是centos，要修改的文件是：`/etc/sysconfig/network-scripts/ifcfg-ens33`，有的centos版本默认网卡也改名成eth0了就修改`/etc/sysconfig/network-scripts/ifcfg-eth0`文件，修改后记得重启网络服务。
 
 ```properties
 DEVICE=ens33
@@ -58,6 +62,6 @@ DNS1=192.168.10.2
     ```
 
     添加后就可以直接通过ping 主机名的方式连通其他主机，并且主机的ip修改后只需要修改hosts文件即可，不在需要在代码中一个个修改ip
-
-windows中添加ip与主机映射需要修改文件`C:\Windows\System32\drivers\etc\hosts`,修改后保存副本，然后再用副本替换原来的hosts文件即可
+    
+    windows中添加ip与主机映射需要修改文件`C:\Windows\System32\drivers\etc\hosts`,修改后保存副本，然后再用副本替换原来的hosts文件即可
 
