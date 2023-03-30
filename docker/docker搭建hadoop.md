@@ -268,6 +268,8 @@ networks:
 </configuration>
     ```
     
+    
+    
 4. 修改配置文件workers，`vim workers`，把原本的localhost删除
 
     ```
