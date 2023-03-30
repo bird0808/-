@@ -101,7 +101,7 @@ x针对文件表示可以执行这个文件，针对文件夹表示可以更改�
     
 - `chown [-R] [用户] [:用户组]` 修改文件所属的用户或用户组，加上-R选项对文件夹内的全部文件执行同样的修改，此命令只适用于root用户。
 
-    示例：`chown :t1 test.txt` 修改test文件的所属用户组为t1，chown t1 test.txt` 修改test文件的所属用户为t1
+    示例：`chown :t1 test.txt` 修改test文件的所属用户组为t1，`chown t1 test.txt` 修改test文件的所属用户为t1
 
 
 
