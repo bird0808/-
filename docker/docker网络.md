@@ -57,6 +57,7 @@ docker有四种网络模式：
 # 3.自定义网络
 
 在run一个容器时，先创建一个自定义的网络，`docker network create my_network`
+使用`docker network create --help`查看更多可以指定的参数，可指定子网，网关ip等
 
 然后run的时候指定这个自定义的网络
 

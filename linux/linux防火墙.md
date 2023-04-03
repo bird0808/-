@@ -3,7 +3,7 @@
  * @Author: 只会Ctrl CV的菜鸟
  * @version: 
  * @Date: 2023-03-30 21:02:37
- * @LastEditTime: 2023-04-01 20:28:02
+ * @LastEditTime: 2023-04-01 23:43:48
 -->
 # 1.iptables
 
@@ -53,6 +53,7 @@ iptables是被集成在linux内核的防火墙，iptables维护着默认的4表5
 - `-P chain target` 设置链默认规则，默认ACCEPT
 - `-X [chain]` 清除自定义的规则
 - `-N` 新建chain
+- `-S` 查看网络规则
 
 `[chain]`:
 - filter
@@ -89,7 +90,7 @@ iptables是被集成在linux内核的防火墙，iptables维护着默认的4表5
 - `REDIRECT`	重定向
 - `RETURN` 表示停止这条链的匹配，到前一个链的规则重新开始。如果到达了一个内建的链(的末端)，或者遇到内建链的规则是 RETURN，包的命运将由链准则指定的目标决定。
 
-# 3.示例
+# 3.示例一
 
 1. `iptables -nvL` 查看filter表的规则
    - `-n` 显示详细的ip和端口
@@ -104,10 +105,13 @@ prot表示协议(protocol), target和上面的`ACTION`差不多意思
 4. `iptables -I INPUT -p tcp -s 10.0.0.1 --dport 22 -j REJECT` 拒绝目的端口22，协议tcp，源ip 10.0.0.1的ssh连接
 5. `iptables -R INPUT 1 -p tcp -s 10.0.0.1 --dport 22 -j ACCEPT` 修改filter表INPUT链的第一条规则
 6. `iptables -D INPUT 1` 删除filter表的INPUT链的第一条规则
-7. `iptables -I INPUT 1 -p tcp -m multiport --dport 22,80,8080  -j ACCEPT` 插入filter表INPUT链第一条，开放多个端口：22，80，8080，协议tcp
--m 打开扩展模块的支持
+7. `iptables -I INPUT 1 -p tcp -m multiport --dport 22,80,8080  -j ACCEPT` 插入filter表INPUT链第一条，开放多个端口：22，80，8080，协议tcp，-m 打开扩展模块的支持
 8. `iptables -I INPUT 1 -p tcp -dport 50010:50050 -j ACCEPT` 开放50010到50050的端口
 9. 规则一：`iptables -I INPUT -p icmp --icmp-type 8 -m limit --limit 6/min --limit-burst 10 -j ACCEPT`
 该规则`--limit 6/min`设置一分钟只能ping 6次，同时`--limit-burst 10`设置从第十个ping开始限制的计数
 规则二：`iptables -I INPUT 2 -p icmp --icmp-type 8  -j REJECT`
 该规则紧跟上一条规则，当上一条规则ping超过限制，就不匹配了，并没有做出拒绝ping的判定，此规则作出拒绝ping的判定，两规则配合实现在ping超过10次后限制ping的次数为6/min。
+
+# 4.示例二
+1. `iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o ens160 -j SNAT --to-source 192.168.200.20`
+将原地址192.168.100.0/24的网段的原地址改为192.168.200.20，出口网卡为ens160

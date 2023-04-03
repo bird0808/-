@@ -56,6 +56,10 @@ SIZE:镜像大小
 
 `docker image prune`：删除所有的虚悬镜像
 
+`docker save [-o 文件名.tar] IMAGE [IMAGE...]` 保存一个或多个镜像文件为tar包，方便分享，一个tar可以保存多个镜像文件，再次用load导入时能识别。
+
+`docker load -i 文件名.tar` 从tar包中导入一个或多个镜像
+
 # 3.容器命令
 
 ## 3.1容器创建
@@ -84,7 +88,6 @@ SIZE:镜像大小
 `-p`指定端口映射的几种不同形式：
 
 
-
 - `-p hostPort:containerPort`：端口映射，例如`-p 8080:80`
 
 - `-p ip:hostPort:containerPort`：配置监听地址，例如 `-p 10.0.0.1:8080:80`
@@ -92,6 +95,8 @@ SIZE:镜像大小
 - `-p ip::containerPort`：随机分配端口，例如 `-p 10.0.0.1::80`
 
 - `-p hostPort1:containerPort1 -p hostPort2:containerPort2`：指定多个端口映射，例如`-p 8080:80 -p 8888:3306`
+
+使用`docker run --help`查更多参数
 
 ### 示例：
 
@@ -117,7 +122,7 @@ SIZE:镜像大小
 
 - `exec`是在容器中打开新的终端，并且可以启动新的进程，用`exit`退出**不会**导致容器的停止
 
-如果有多个终端，都对同一个容器执行了 `docker attach`，就会出现类似投屏显示的效果。一个终端中输入输出的内容，在其他终端上也会同步的显示。
+如果有多个终端，都对同一个容器执行了 `docker attach`，就会出现类似投屏显示的效果。一个终端中输入输出的内容，在其他终端上也会同步的显示。用attach进入容器的时候可以用`ctrl+q+p`退出容器并让容器不停止
 
 ## 3.3查看容器信息
 
