@@ -120,11 +120,13 @@ networks:
     export HDFS_SECONDARYNAMENODE_USER=root
     export YARN_RESOURCEMANAGER_USER=root
     export YARN_NODEMANAGER_USER=root
-    
+    # java环境变量
     export JAVA_HOME=/opt/service/jre1.8.0_361
     export PATH=$PATH:$JAVA_HOME/bin
+    # 解决中文乱码
+    export LANG=en_US.UTF-8
     
-    #HADOOP_HOME
+    # HADOOP_HOME
     export HADOOP_HOME=/opt/service/hadoop-3.1.3
     export PATH=$PATH:$HADOOP_HOME/bin
     export PATH=$PATH:$HADOOP_HOME/sbin
@@ -280,12 +282,12 @@ networks:
 
     注意：该文件中添加的内容结尾不允许有空格，文件中不允许有空行
 
-5. 配置日志
+5. 配置日志（本步骤上面已经做过）
     日志聚集概念：应用运行完成以后，将程序运行日志信息上传到HDFS系统上。
 
     日志聚集功能好处：可以方便的查看到程序运行详情，方便开发调试。
 
-    注意：开启日志聚集功能，需要重新启动NodeManager 、ResourceManager和HistoryServer。本步骤上面已经做过
+    注意：开启日志聚集功能，需要重新启动NodeManager 、ResourceManager和HistoryServer。
 
     `vim yarn-site.xml`
 
