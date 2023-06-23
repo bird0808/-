@@ -1,0 +1,55 @@
+version: "3"
+services:
+  hadoop102:
+    image: hadoop:1.0
+    container_name: hadoop102
+    ports:
+      - 19888:19888
+      - 9871:9871
+      - 9870:9870
+      - 9867:9867
+      - 9866:9866
+      - 9864:9864
+      - 9820:9820
+      - 9000:9000
+      - 1022:22
+    hostname: hadoop102
+    networks:
+         my_network:
+            ipv4_address: 172.19.0.102
+
+  hadoop103:
+    image: hadoop:1.0
+    container_name: hadoop103
+    ports:
+      - 9867:9867
+      - 9866:9866
+      - 9864:9864
+      - 8088:8088
+      - 1022:22
+    hostname: hadoop103
+    networks:
+         my_network:
+            ipv4_address: 172.19.0.103
+  
+  hadoop104:
+    image: hadoop:1.0
+    container_name: hadoop104
+    ports:
+      - 9869:9869
+      - 9868:9868
+      - 9867:9867
+      - 9866:9866
+      - 9864:9864
+      - 1022:22
+    hostname: hadoop104
+    networks:
+         my_network:
+            ipv4_address: 172.19.0.104
+networks:
+  my_network:
+    name: my_network
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.19.0.0/16"

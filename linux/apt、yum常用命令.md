@@ -71,13 +71,16 @@ yum 提供了查找、安装、删除某一个、一组甚至全部软件包的�
 格式：`yum [options] [command] [package ...]`
 yum的源存放文件 `/etc/yum.repos.d/CentOS-Base.repo`
 更换国内源，阿里云教程网站：https://developer.aliyun.com/mirror/centos
+
 ## 2.1升级、安装
 `yum check-update` 列出所有可更新的软件清单命令
 `yum update` 更新所有软件命令
 `yum install <package_name>` 仅安装指定软件命令
 `yum update <package_name>` 仅更新指定的软件命令
-`yum list` 列出所有可安裝的软件清单命令
+`yum list installed` 查看已安装的包
+
 ## 2.2查询、清理
+
 `yum search <keyword>` 查找软件包命令
 `yum clean packages` 清除缓存目录下的软件包
 `yum clean headers` 清除缓存目录下的 headers

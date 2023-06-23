@@ -142,6 +142,8 @@ SIZE:镜像大小
 
 `docker inspect 容器ID或容器名`:查看容器内部细节
 
+`docker stats` 查看容器运行资源占用
+
 ## 3.4容器启停操作
 
 `docker start 容器ID或容器名`:启动已经停止的容器
@@ -187,12 +189,10 @@ SIZE:镜像大小
 特点：
 
 - 数据卷可以在容器之间共享或重用数据
-
 - 卷中的更改可以直接实施生效
-
 - 数据卷中的更改不会包含在镜像的更新中
-
 - 数据卷的生命周期一直持续到没有容器使用它为止
+- 数据卷的文件夹如果是新建的，即在linux中的空文件夹如果和容器中的文件夹同名，会把容器中的文件夹的内容清空
 
 `docker run -it --privileged=true -v 宿主机绝对路径目录:容器内目录[: rw | ro] 镜像名`：启动一个容器，并挂载一个数据卷到容器，
 
@@ -209,7 +209,6 @@ SIZE:镜像大小
 - `docker run -it  --privileged=true -v /home/kailuser/masterdata:/tmp/dockerdata:ro ubuntu bash`:
 
     启动Ubuntu容器示例，挂载宿主机的`/home/kailuser/masterdata`到容器的`/tmp/dockerdata`，注意填写**绝对路径**，ro设置docker容器只能读这个文件夹，不能写、添加文件！
-
 
 ## 3.8.1数据卷其他命令
 

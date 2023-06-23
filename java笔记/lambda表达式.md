@@ -80,9 +80,11 @@ public class Test<T>{
     private interface Int2{
         public abstract void show(String a);
     }
+    
     private interface Int3{
         public abstract void show(String a,int b);
     }
+    
     private interface Int4{
         public abstract String show(String a);
     }

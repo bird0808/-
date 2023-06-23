@@ -67,6 +67,8 @@ services:
     ports:
       - 9870:9870
       - 9000:9000
+      - 8020:8020
+      - 19888:19888
     hostname: hadoop102
     networks:
          my_network:
@@ -78,6 +80,7 @@ services:
     ports:
       - 9864:9864
       - 8088:8088
+      - 9866:9866
     hostname: hadoop103
     networks:
          my_network:
@@ -323,7 +326,9 @@ networks:
 
 8. 启动hdfs，在hadoop102上执行`start-dfs.sh`
 
-9. 启动yarn，使用`docker exec -it hadoop103 bash`进入hadoop103，在hadoop103上执行`start-yarn.sh`
+9. 启动历史服务器，在hadoop102上执行` mapred  --daemon start historyservice`
+
+10. 启动yarn，使用`docker exec -it hadoop103 bash`进入hadoop103，在hadoop103上执行`start-yarn.sh`
 
 **补充**：
 

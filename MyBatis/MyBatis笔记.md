@@ -168,6 +168,7 @@ public class UserMapperTest {
 ```
 - 此时需要手动提交事务，如果要自动提交事务，则在获取sqlSession对象时，使用`SqlSession sqlSession = sqlSessionFactory.openSession(true);`，传入一个Boolean类型的参数，值为true，这样就可以自动提交
 ## 加入log4j日志功能
+
 1. 加入依赖
 	```xml
 	<!-- log4j日志 -->
@@ -1150,6 +1151,7 @@ public void getEmpByChoose() {
 	3. 同一个SqlSession两次查询期间执行了任何一次增删改操作
 	4. 同一个SqlSession两次查询期间手动清空了缓存
 ## MyBatis的二级缓存
+
 - 二级缓存是SqlSessionFactory级别，通过同一个SqlSessionFactory创建的SqlSession查询的结果会被缓存；此后若再次执行相同的查询语句，结果就会从缓存中获取  
 - 二级缓存开启的条件
 
@@ -1159,6 +1161,7 @@ public void getEmpByChoose() {
 	4. 查询的数据所转换的实体类类型必须实现序列化的接口
 - 使二级缓存失效的情况：两次查询之间执行了任意的增删改，会使一级和二级缓存同时失效
 ## 二级缓存的相关配置
+
 - 在mapper配置文件中添加的cache标签可以设置一些属性
 - eviction属性：缓存回收策略  
 	- LRU（Least Recently Used） – 最近最少使用的：移除最长时间不被使用的对象。  
@@ -1463,6 +1466,7 @@ public void getEmpByChoose() {
 ```
 ## 分页插件的使用
 ### 开启分页功能
+
 - 在查询功能之前使用`PageHelper.startPage(int pageNum, int pageSize)`开启分页功能
 	- pageNum：当前页的页码  
 	- pageSize：每页显示的条数

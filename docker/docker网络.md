@@ -52,6 +52,12 @@ docker有四种网络模式：
 
 - `docker network prune`：删除所有无效网络
 
+- `docker network connect 网络名 容器id` 将一个容器连通到另一个网段的自定义网络（如果自定义了两个不同网段的网桥网络，处于不同网段的容器不能直接ping通另一个网段的容器的网络）
+
+  该命令本质上为容器多添加了一个ip，即该容器同时拥有两个不同网段的网络的ip，下图中172.17.0.0网段为docker自带的brige网络的网段，172.19.0.0为自定义的docker 网桥模式的网络的网段。
+  
+  ![image-20230409173346137](images/image-20230409173346137.png)
+  
     
 
 # 3.自定义网络
@@ -66,3 +72,24 @@ docker有四种网络模式：
 `docker run -it --network my_network --name u2 ubuntu bash`
 
 这时候在u1可以直接使用`ping u2`就可以ping通，不需要ip地址。
+
+# 4.动态修改端口映射
+
+1. `systemctl stop docker` 停止docker
+
+2. 进入要修改的容器的配置文件的存放目录
+    `cd /var/lib/docker/containers/容器id`
+
+    用`docker inspect 容器别名 | head `查看容器完整id
+
+3. 修改`hostconfig.json`的"PortBindings"，参考格式修改即可，注意`[]`、`,`、`{}`的位置
+
+    
+
+![image-20230407223546994](images/image-20230407223546994.png)
+
+4. 修改`config.v2.json`中的"ExposedPorts"，注意格式
+
+    ![image-20230407223959940](images/image-20230407223959940.png)
+
+5. 重启docker，`systemctl restart docker`，然后再启动容器。
