@@ -1,11 +1,4 @@
-<!--
- * @Descripttion: 
- * @Author: 只会Ctrl CV的菜鸟
- * @version: 
- * @Date: 2023-04-10 17:16:00
- * @LastEditTime: 2023-04-10 19:12:07
--->
-`# 1.docker swarm
+# 1.docker swarm
 
 docker swarm可以实现在一台机器上管理多台机器上的docker。比如阿里云，你有好几台服务器，都安装了docker，如果手动管理一台台机子上的docker并创建容器实在太麻烦了，可以通过swarm进行小集群的管理，超过10台建议上k8s。
 
